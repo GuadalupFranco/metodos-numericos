@@ -1,5 +1,4 @@
-from cmath import sqrt
-from math import e, log
+from math import e, log, sin, cos, tan, sqrt
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -14,7 +13,7 @@ y_puntos_teoricos = []
 t_map = np.linspace(0, 1, 100000)
 ecuacion_diferencial = input("Escribe la ecuación diferencial de primer grado (con y' despejada): ")
 ecuacion_solucion = input("Escribe la ecuación solución: ")
-variables_ecuacion = {"pow": pow, "e": e, "sqrt": sqrt, "log": log, "sin": sin, "cos": cos, "tan". tan}
+variables_ecuacion = {"pow": pow, "e": e, "sqrt": sqrt, "log": log, "sin": sin, "cos": cos, "tan": tan}
 pasos = int((intervalo_superior - t) / h)
 
 
