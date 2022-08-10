@@ -22,19 +22,22 @@ def solucion(t):
     y = eval(ecuacion_solucion, variables_ecuacion)
     return y
 
+
 def f(t, y):
     variables_ecuacion["t"] = t
     variables_ecuacion["y"] = y
     z = eval(ecuacion_diferencial, variables_ecuacion)
     return z
 
+
 def evaluar(t, y, h):
     for i in range(pasos):
         t = round(t + h, 2)
         y = round(solucion(t), 4)
-        inserta_datos(t, y , t_puntos, y_puntos_teoricos)
+        inserta_datos(t, y, t_puntos, y_puntos_teoricos)
 
-def euler(t, y, h): 
+
+def euler(t, y, h):
     metodo = "Euler"
     for i in range(pasos):
         y = y + h*f(t, y)
@@ -42,16 +45,18 @@ def euler(t, y, h):
         t_puntos = []
         inserta_datos(t, y, t_puntos, y_puntos_aprox)
 
+
 def euler_mejorado(t, y, h):
     metodo = "Euler mejorado"
     for i in range(pasos):
-        y_asterisco = y + h*f(t,y)
+        y_asterisco = y + h*f(t, y)
         t_siguiente = round(t + h, 2)
-        y = y + h*((f(t,y)+ f(t_siguiente, y_asterisco))/(2))
+        y = y + h*((f(t, y) + f(t_siguiente, y_asterisco))/(2))
         t = round(t + h, 2)
         t_puntos = []
         inserta_datos(t, y, t_puntos, y_puntos_aprox)
-        
+
+
 def runge_kutta_4(t, y, h):
     metodo = "Runge Kutta de Orden 4"
     for i in range(pasos):
@@ -64,22 +69,25 @@ def runge_kutta_4(t, y, h):
         t_puntos = []
         inserta_datos(t, y, t_puntos, y_puntos_aprox)
 
+
 def inserta_datos(t, y, t_array, y_array):
-    t_array.append(round(t,4))
-    y_array.append(round(y,4))
+    t_array.append(round(t, 4))
+    y_array.append(round(y, 4))
+
 
 def seleccionar_metodo():
     func_name = input("""\nEscribe el nombre del método númerico a usar:
     Euler = euler
     Euler mejorado = euler_mejorado
-    Runge Kutta de Orden 4 = runge_kutta_4
-    """)
+    Runge Kutta de Orden 4 = runge_kutta_4""")
     evaluar(t, y, h)
     argsdict = {'t': t, 'y': y, 'h': h}
     globals()[func_name](**argsdict)
 
 
-fig, ax = plt.subplot_mosaic([['left', 'right'],['left', 'right']], layout='constrained')
+fig, ax = plt.subplot_mosaic(
+    [['left', 'right'], ['left', 'right']], layout='constrained')
+
 
 def definir_grafica(metodo):
     ax['right'].set_xlabel('Eje t')
@@ -90,6 +98,7 @@ def definir_grafica(metodo):
     ax['right'].plot(t_puntos, y_puntos_aprox, 'o', label='Puntos aproximados', color='lime')
     ax['right'].legend()
 
+
 def definir_tabla():
     ax['left'].axis('off')
     ax['left'].axis('tight')
@@ -99,16 +108,13 @@ def definir_tabla():
         row_data = [y_puntos_teoricos[i], y_puntos_aprox[i]]
         cell_text.append(row_data)
     the_table = ax['left'].table(cellText=cell_text,
-                      rowLabels=t_puntos,
-                      rowColours=None,
-                      colLabels=["Teórico","Aproximado"],
-                      loc='center')
+                                 rowLabels=t_puntos,
+                                 rowColours=None,
+                                 colLabels=["Teórico", "Aproximado"],
+                                 loc='center')
 
 
 seleccionar_metodo()
 definir_grafica(metodo)
 definir_tabla()
 plt.show()
-
-
-
