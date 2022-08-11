@@ -103,6 +103,7 @@ def definir_grafica():
 def definir_tabla():
     ax['left'].axis('off')
     ax['left'].axis('tight')
+    ax_left, ax_bottom, ax_width, ax_height = 0.1, 0.3, 0.8, 0.65
     cell_text = []
     n_rows = len(y_puntos_aprox)
     for i in range(n_rows):
@@ -112,7 +113,12 @@ def definir_tabla():
                                  rowLabels=t_puntos,
                                  rowColours=None,
                                  colLabels=["Teórico", "Aproximado"],
-                                 loc='center')
+                                 loc='center',
+                                 bbox=(0, 0, 1, 1))
+    if n_rows >= 100:
+        the_table.set_fontsize(4)
+    elif n_rows >= 50:
+        the_table.set_fontsize(9)
 
 def imprimir_tabla_consola():
     data = []
@@ -120,7 +126,6 @@ def imprimir_tabla_consola():
     for i in range(n_rows):
         data.append([t_puntos[i], y_puntos_teoricos[i], y_puntos_aprox[i]])
     print (tabulate(data, headers=["t", "y teórico", "y aproximado"]))
-
 
 seleccionar_metodo()
 definir_grafica()
