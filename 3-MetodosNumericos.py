@@ -1,6 +1,7 @@
 from math import e, log, sin, cos, tan, sqrt
 import matplotlib.pyplot as plt
 import numpy as np
+from tabulate import tabulate
 
 t = int(input("Valor de t en el intervalo inferior: "))
 intervalo_superior = int(input("Valor de t en el intervalo superior: "))
@@ -79,17 +80,17 @@ def seleccionar_metodo():
     func_name = input("""\nEscribe el nombre del método númerico a usar:
     Euler = euler
     Euler mejorado = euler_mejorado
-    Runge Kutta de Orden 4 = runge_kutta_4""")
+    Runge Kutta de Orden 4 = runge_kutta_4\n""")
     evaluar(t, y, h)
     argsdict = {'t': t, 'y': y, 'h': h}
     globals()[func_name](**argsdict)
 
 
 fig, ax = plt.subplot_mosaic(
-    [['left', 'right'], ['left', 'right']], layout='constrained')
+    [['left', 'right'], ['left', 'right']], constrained_layout=True)
 
 
-def definir_grafica(metodo):
+def definir_grafica():
     ax['right'].set_xlabel('Eje t')
     ax['right'].set_ylabel('Eje y')
     ax['right'].set_title("Métodos Numéricos - " + metodo)
@@ -113,8 +114,16 @@ def definir_tabla():
                                  colLabels=["Teórico", "Aproximado"],
                                  loc='center')
 
+def imprimir_tabla_consola():
+    data = []
+    n_rows = len(y_puntos_aprox)
+    for i in range(n_rows):
+        data.append([t_puntos[i], y_puntos_teoricos[i], y_puntos_aprox[i]])
+    print (tabulate(data, headers=["t", "y teórico", "y aproximado"]))
+
 
 seleccionar_metodo()
-definir_grafica(metodo)
+definir_grafica()
 definir_tabla()
+imprimir_tabla_consola()
 plt.show()
