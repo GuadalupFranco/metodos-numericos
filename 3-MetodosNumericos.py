@@ -34,8 +34,12 @@ def f(t, y):
 def evaluar(t, y, h):
     for i in range(pasos):
         t = round(t + h, 2)
-        y = round(solucion(t), 4)
+        try: 
+            y = round(solucion(t), 4)
+        except ZeroDivisionError:
+            y = 0
         inserta_datos(t, y, t_puntos, y_puntos_teoricos)
+
 
 
 def euler(t, y, h):
@@ -109,16 +113,16 @@ def definir_tabla():
     for i in range(n_rows):
         row_data = [y_puntos_teoricos[i], y_puntos_aprox[i]]
         cell_text.append(row_data)
-    the_table = ax['left'].table(cellText=cell_text,
+    tabla = ax['left'].table(cellText=cell_text,
                                  rowLabels=t_puntos,
                                  rowColours=None,
                                  colLabels=["Teórico", "Aproximado"],
                                  loc='center',
                                  bbox=(0, 0, 1, 1))
     if n_rows >= 100:
-        the_table.set_fontsize(4)
+        tabla.set_fontsize(4)
     elif n_rows >= 50:
-        the_table.set_fontsize(9)
+        tabla.set_fontsize(9)
 
 def imprimir_tabla_consola():
     data = []
